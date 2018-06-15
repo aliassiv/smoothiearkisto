@@ -79,22 +79,21 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
         Connection connection = database.getConnection();
         PreparedStatement statement1 = connection.prepareStatement("SELECT Annos.nimi AS annos, RaakaAine.nimi AS raakaaine, AnnosRaakaAine.maara AS maara, AnnosRaakaAine.jarjestys AS jarjestys \n" +
 "	FROM Annos\n" +
-"	LEFT JOIN AnnosRaakaAine ON Annos.id = AnnosRaakaAine.annos_id\n" +
-"	LEFT JOIN RaakaAine ON AnnosRaakaAine.raaka_aine_id = RaakaAine.id\n" +
+"	INNER JOIN AnnosRaakaAine ON Annos.id = AnnosRaakaAine.annos_id\n" +
+"	INNER JOIN RaakaAine ON AnnosRaakaAine.raaka_aine_id = RaakaAine.id\n" +
 "	WHERE Annos.id = ?\n" +
 "	ORDER BY jarjestys;");
         statement1.setInt(1, annoksenId);
 
         ResultSet resultSet1 = statement1.executeQuery();
         
-        while(resultSet1.next()){
+        while (resultSet1.next()) {
             String raakaAine = resultSet1.getString("raakaaine");
             String maara = resultSet1.getString("maara");
-            
+
             String kuvaus = raakaAine + ", " + maara;
-            if (!raakaAine.equals(null)) {
-                raakaAineet.add(kuvaus);
-            }                        
+            raakaAineet.add(kuvaus);
+
         }
         statement1.close();
         resultSet1.close();
