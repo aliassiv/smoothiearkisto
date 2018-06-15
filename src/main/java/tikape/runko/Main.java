@@ -2,7 +2,9 @@ package tikape.runko;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import spark.ModelAndView;
 import spark.Spark;
 import static spark.Spark.*;
@@ -70,11 +72,14 @@ public class Main {
 
         Spark.get("/reseptit/smoothiet/yksittainen/*", (req, res) -> {
             Integer annosId = Integer.parseInt(req.splat()[0]);
-            Annos annos = annosDao.findOne(annosId);                   
+            Annos annos = annosDao.findOne(annosId);
+            String annosNimi = annos.getNimi();
+            
+            List<String> annoksenRaakaAineet = annosRaakaAineDao.findAnnoksenRaakaAineet(annos);
             
             HashMap map = new HashMap<>();           
-            map.put("smoothienimi", annos.getNimi());
-            map.put("annoksenRaakaAineet", annosRaakaAineDao.findAnnoksenRaakaAineet(annos));
+            map.put("smoothienimi", annosNimi);
+            map.put("annoksenRaakaAineet", annoksenRaakaAineet);
 
             return new ModelAndView(map, "smoothie");
         }, new ThymeleafTemplateEngine());

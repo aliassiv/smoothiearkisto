@@ -93,8 +93,10 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
             
             raakaAineet.add(kuvaus);
             statement2.close();
+            resultSet2.close();
         }
-        statement1.close();        
+        statement1.close();
+        resultSet1.close();
         connection.close();
         
         return raakaAineet;
