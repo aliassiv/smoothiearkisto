@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+
+<html>
+    <head>
+        <title>Raaka-aineet</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <h1>Raaka-aineet</h1>
+        <ul>            
+            <li th:each="raakaaine: ${raakaaineet}">
+                <span th:text="${raakaaine.nimi}">raakaaineen nimi</span> <a th:href="'/reseptit/raakaaineet/delete/' + ${raakaaine.id}">(poista)</a>                    
+            </li> 
+        </ul>        
+        <p><b>Lisää uusi raaka-aine</b></p>        
+        
+        <form method="POST" action="/reseptit/raakaaine">
+            Raaka-aineen nimi:<br/>
+            <input type="text" name="nimi"/><br/>
+            <input type="submit" value="Lisää"/>
+        </form>
+        <br/>
+        <ul>
+            <li><a href="/reseptit">Smoothielistaukseen</a></li>
+        </ul>
+        
+    </body>
+</html>

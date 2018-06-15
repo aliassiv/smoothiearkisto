@@ -7,13 +7,25 @@ import java.util.List;
 public class Database {
 
     private String databaseAddress;
+ // alkuperainen on tämä   
+//        public Database(String databaseAddress) throws ClassNotFoundException {
+//        this.databaseAddress = databaseAddress;
+//    }
+    
+    
 
-    public Database(String databaseAddress) throws ClassNotFoundException {
-        this.databaseAddress = databaseAddress;
+    public Database() throws ClassNotFoundException {
+    //    this.databaseAddress = databaseAddress;
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(databaseAddress);
+//        return DriverManager.getConnection(databaseAddress);
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        if (dbUrl != null && dbUrl.length() > 0) {
+            return DriverManager.getConnection(dbUrl);
+        }
+
+        return DriverManager.getConnection("jdbc:sqlite:raakaaineet.db");
     }
 
     public void init() {

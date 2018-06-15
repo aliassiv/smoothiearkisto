@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Smoothielista</title>
+        <meta charset="UTF-8"/>        
+    </head>
+    <body>
+        <h1>Smoothielista</h1>
+        <ul>            
+            <li th:each="smoothie: ${smoothiet}">
+                <a th:href="'/reseptit/smoothiet/yksittainen/' + ${smoothie.id}">
+                <span th:text="${smoothie.nimi}">smoothien nimi</span>
+                </a>                    
+            </li> 
+        </ul>     
+        
+        <ul>
+            <li><a href="/reseptit/raakaaineet">Tarkastele ja lisää aineksia</a></li>
+            <li><a href="/reseptit/smoothiet">Luo uusi smoothie</a></li>
+        </ul>
+        
+    </body>
+</html>

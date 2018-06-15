@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+
+
+<html>
+    <head>
+        <title>Smoothie</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <h1 th:text="${smoothienimi}">Smoothienimi</h1>
+        <ul>            
+            <li th:each="annoksenRaakaAine: ${annoksenRaakaAineet}">
+                <span th:text="${annoksenRaakaAine}">raakaaine</span>                     
+            </li> 
+        </ul>
+        <a href="/reseptit">Smoothielistaukseen</a> 
+        
+    </body>
+</html>
