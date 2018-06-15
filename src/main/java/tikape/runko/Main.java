@@ -95,6 +95,19 @@ public class Main {
             res.redirect("/reseptit/smoothiet");
             return "";
         });
+        
+        
+        Spark.post("/reseptit/smoothiet", (req, res) -> {
+
+            String annoksenNimi = req.queryParams("nimi");
+            Annos annos = new Annos(-1, annoksenNimi);
+            annosDao.save(annos);
+
+            res.redirect("/reseptit/smoothiet");
+            return "";
+        });
+
+        
 
         Spark.get("/reseptit/smoothiet/delete/*", (req, res) -> {
             Integer annosId = Integer.parseInt(req.splat()[0]);
