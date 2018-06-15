@@ -75,7 +75,10 @@ public class Main {
             Annos annos = annosDao.findOne(annosId);
             String annosNimi = annos.getNimi();
             
-            List<String> annoksenRaakaAineet = annosRaakaAineDao.findAnnoksenRaakaAineet(annos);
+//            List<String> annoksenRaakaAineet = annosRaakaAineDao.findAnnoksenRaakaAineet(annos);
+            List<String> annoksenRaakaAineet = new ArrayList<>();
+            annoksenRaakaAineet.add("Testiraakaaine ensimmäinen");
+            annoksenRaakaAineet.add("Testiraakaaine toinen");
             
             HashMap map = new HashMap<>();           
             map.put("smoothienimi", annosNimi);

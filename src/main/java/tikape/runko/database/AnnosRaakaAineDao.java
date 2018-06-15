@@ -79,6 +79,7 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
 
         ResultSet resultSet1 = statement1.executeQuery();
         
+        
         while(resultSet1.next()){
             String raakaAineIdStringina = resultSet1.getString("raaka_aine_id");
             Integer raakaAineId = Integer.parseInt(raakaAineIdStringina);
@@ -92,6 +93,7 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
             String kuvaus = raakaAineenNimi + ", " + maara;
             
             raakaAineet.add(kuvaus);
+            
             statement2.close();
             resultSet2.close();
         }
