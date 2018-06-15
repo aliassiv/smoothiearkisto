@@ -76,6 +76,7 @@ public class AnnosDao implements Dao<Annos, Integer> {
         stmt.executeUpdate();
 
         stmt.close();
+        stmt2.close();
         connection.close();
 
     }

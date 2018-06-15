@@ -35,6 +35,7 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
 
         ResultSet resultSet = stmt.executeQuery();
         List<AnnosRaakaAine> annosRaakaAineet = new ArrayList<>();
+        
         while (resultSet.next()) {            
             Integer raakAineId = resultSet.getInt("raakaaineId");
             RaakaAine raakaAine = raakaAineDao.findOne(raakAineId);
@@ -73,29 +74,25 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
     public List<String> findAnnoksenRaakaAineet(Annos annos) throws SQLException {
         
         List<String> raakaAineet = new ArrayList<>();
+        Integer annoksenId = annos.getId();
+        
         Connection connection = database.getConnection();
-        PreparedStatement statement1 = connection.prepareStatement("SELECT * FROM AnnosRaakaAine WHERE annos_id = ? ORDER BY jarjestys");
-        statement1.setInt(1, annos.getId());
+        PreparedStatement statement1 = connection.prepareStatement("SELECT Annos.nimi AS annos, RaakaAine.nimi AS raakaaine, AnnosRaakaAine.maara AS maara, AnnosRaakaAine.jarjestys AS jarjestys \n" +
+"	FROM Annos\n" +
+"	LEFT JOIN AnnosRaakaAine ON Annos.id = AnnosRaakaAine.annos_id\n" +
+"	LEFT JOIN RaakaAine ON AnnosRaakaAine.raaka_aine_id = RaakaAine.id\n" +
+"	WHERE Annos.id = ?\n" +
+"	ORDER BY jarjestys;");
+        statement1.setInt(1, annoksenId);
 
         ResultSet resultSet1 = statement1.executeQuery();
         
-        
         while(resultSet1.next()){
-            String raakaAineIdStringina = resultSet1.getString("raaka_aine_id");
-            Integer raakaAineId = Integer.parseInt(raakaAineIdStringina);
-            PreparedStatement statement2 = connection.prepareStatement("SELECT nimi FROM RaakaAine WHERE id = ?");
-            statement2.setInt(1,raakaAineId);
-            
-            ResultSet resultSet2 = statement2.executeQuery();            
-            String raakaAineenNimi = resultSet2.getString("nimi");
-            
+            String raakaAine = resultSet1.getString("raakaaine");
             String maara = resultSet1.getString("maara");
-            String kuvaus = raakaAineenNimi + ", " + maara;
             
-            raakaAineet.add(kuvaus);
-            
-            statement2.close();
-            resultSet2.close();
+            String kuvaus = raakaAine + ", " + maara;            
+            raakaAineet.add(kuvaus);            
         }
         statement1.close();
         resultSet1.close();
