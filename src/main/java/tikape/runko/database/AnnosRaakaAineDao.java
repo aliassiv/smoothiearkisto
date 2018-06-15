@@ -92,7 +92,7 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
             String maara = resultSet1.getString("maara");
             
             String kuvaus = raakaAine + ", " + maara;
-            if (!kuvaus.equals(", ")) {
+            if (!raakaAine.equals(null)) {
                 raakaAineet.add(kuvaus);
             }                        
         }
