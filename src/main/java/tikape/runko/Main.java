@@ -79,7 +79,7 @@ public class Main {
             
             HashMap map = new HashMap<>();           
             map.put("smoothienimi", annosNimi);
-            map.put("annoksenRaakaAineet", annoksenRaakaAineet);
+//            map.put("annoksenRaakaAineet", annoksenRaakaAineet);
 
             return new ModelAndView(map, "smoothie");
         }, new ThymeleafTemplateEngine());
