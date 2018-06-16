@@ -47,13 +47,13 @@ public class Main {
             return new ModelAndView(map, "raakaaineet");
         }, new ThymeleafTemplateEngine());
 
-        Spark.get("/reseptit/smoothiet", (req, res) -> {
-            HashMap map = new HashMap<>();
-            map.put("smoothiet", annosDao.findAll());
-            map.put("raakaaineet", raakaAineDao.findAll());
-
-            return new ModelAndView(map, "smoothiet");
-        }, new ThymeleafTemplateEngine());
+//        Spark.get("/reseptit/smoothiet", (req, res) -> {
+//            HashMap map = new HashMap<>();
+//            map.put("smoothiet", annosDao.findAll());
+//            map.put("raakaaineet", raakaAineDao.findAll());
+//
+//            return new ModelAndView(map, "smoothiet");
+//        }, new ThymeleafTemplateEngine());
 
         Spark.get("/reseptit/smoothiet", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -116,18 +116,28 @@ public class Main {
         
 
         Spark.get("/reseptit/smoothiet/delete/*", (req, res) -> {
-            Integer annosId = Integer.parseInt(req.splat()[0]);
+            Integer annosId = Integer.parseInt(req.splat()[0]);            
+            annosRaakaAineDao.delete(annosId);
             annosDao.delete(annosId);
 
             res.redirect("/reseptit/smoothiet");
             return "";
         });
+        
+        Spark.get("/reseptit/raakaaineet/eivoipoistaa", (req, res) -> {
+            HashMap map = new HashMap<>();            
+            
+            return new ModelAndView(map, "eivoipoistaa");
+        }, new ThymeleafTemplateEngine());
+        
 
         Spark.get("/reseptit/raakaaineet/delete/*", (req, res) -> {
             Integer raakaaineId = Integer.parseInt(req.splat()[0]);
-            raakaAineDao.delete(raakaaineId);
-
-            res.redirect("/reseptit/raakaaineet");
+            if (raakaAineDao.deleteRaakaAine(raakaaineId)) {
+                res.redirect("/reseptit/raakaaineet");
+            } else {
+                res.redirect("/reseptit/raakaaineet/eivoipoistaa");
+            }            
             return "";
         });
         

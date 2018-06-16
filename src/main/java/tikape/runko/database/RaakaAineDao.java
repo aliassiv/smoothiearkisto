@@ -62,17 +62,30 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
         return raakaAineet;
     }
 
-    @Override
-    public void delete(Integer key) throws SQLException {
+    
+    public boolean deleteRaakaAine(Integer key) throws SQLException {
+        
         Connection connection = database.getConnection();
+        
+        PreparedStatement stmt1 = connection.prepareStatement("SELECT * FROM AnnosRaakaAine WHERE raaka_aine_id = ?");
+        stmt1.setInt(1, key);
+        
+        ResultSet resultSet = stmt1.executeQuery();
+    
+        if (!resultSet.next()) {
+            PreparedStatement stmt = connection.prepareStatement("DELETE FROM RaakaAine WHERE id = ?");
+            stmt.setInt(1, key);
 
-        PreparedStatement stmt = connection.prepareStatement("DELETE FROM RaakaAine WHERE id = ?");
-        stmt.setInt(1, key);
-
-        stmt.executeUpdate();
-
-        stmt.close();
+            stmt.executeUpdate();
+            stmt.close();
+            stmt1.close();
+            connection.close();
+            return true;
+        }
+        resultSet.close();
+        stmt1.close();
         connection.close();
+        return false;
     }
 
     public void save(RaakaAine raakaAine) throws SQLException {
@@ -91,6 +104,11 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
         statement.close();        
         resultSet.close();
         connection.close();
+    }
+
+    @Override
+    public void delete(Integer key) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     
