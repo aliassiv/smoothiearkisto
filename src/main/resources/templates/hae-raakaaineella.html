@@ -1,0 +1,26 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Hae raaka-aineella</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <h1>Hae smoothieita raaka-aineen perusteella</h1>
+        
+        Valitse raaka-aine 
+        
+        <form method="POST" action="/reseptit/haku">
+           
+            <select name="raakaaineId">
+                <option th:each="raakaaine: ${raakaaineet}" th:value="${raakaaine.id}" th:text="${raakaaine.nimi}">
+                    raakaaine
+                </option>
+            </select><br/>
+            
+            <input type="submit" value="Hae smoothiet"/>
+        </form>
+        <ul>
+            <li><a href="/reseptit">Smoothielistaukseen</a></li>
+        </ul>
+    </body>
+</html>

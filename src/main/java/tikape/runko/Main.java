@@ -46,14 +46,30 @@ public class Main {
 
             return new ModelAndView(map, "raakaaineet");
         }, new ThymeleafTemplateEngine());
+        
+        Spark.get("/reseptit/haku", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("raakaaineet", raakaAineDao.findAll());
 
-//        Spark.get("/reseptit/smoothiet", (req, res) -> {
-//            HashMap map = new HashMap<>();
-//            map.put("smoothiet", annosDao.findAll());
-//            map.put("raakaaineet", raakaAineDao.findAll());
-//
-//            return new ModelAndView(map, "smoothiet");
-//        }, new ThymeleafTemplateEngine());
+            return new ModelAndView(map, "hae-raakaaineella");
+        }, new ThymeleafTemplateEngine());
+        
+        Spark.get("/reseptit/haku", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("raakaaineet", raakaAineDao.findAll());
+
+            return new ModelAndView(map, "hae-raakaaineella");
+        }, new ThymeleafTemplateEngine());
+        
+        Spark.post("/reseptit/haku", (req, res) -> {
+            HashMap map = new HashMap<>();
+            Integer raakaAineId = Integer.parseInt(req.queryParams("raakaaineId"));
+            map.put("smoothiet", annosDao.findAllByRaakaAineId(raakaAineId));
+
+            return new ModelAndView(map, "hakutulos");
+        }, new ThymeleafTemplateEngine());
+
+
 
         Spark.get("/reseptit/smoothiet", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -76,11 +92,13 @@ public class Main {
             String annosNimi = annos.getNimi();
             
             List<String> annoksenRaakaAineet = annosRaakaAineDao.findAnnoksenRaakaAineet(annos);
+            List<String> annoksenOhjeet = annosRaakaAineDao.findAnnoksenOhjeet(annos);
             
             HashMap map = new HashMap<>();           
             map.put("smoothienimi", annosNimi);
             if (!annoksenRaakaAineet.isEmpty()) {
                 map.put("annoksenRaakaAineet", annoksenRaakaAineet);
+                map.put("annoksenOhjeet", annoksenOhjeet);
             }
             return new ModelAndView(map, "smoothie");
         }, new ThymeleafTemplateEngine());

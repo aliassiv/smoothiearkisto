@@ -62,6 +62,28 @@ public class AnnosDao implements Dao<Annos, Integer> {
 
         return annokset;
     }
+    public List<Annos> findAllByRaakaAineId(Integer raakaAineId) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT Annos.id AS id, Annos.nimi AS nimi FROM Annos\n" +
+"	INNER JOIN AnnosRaakaAine ON Annos.id = AnnosRaakaAine.annos_id\n" +
+"	WHERE AnnosRaakaAine.raaka_aine_id = ?");
+        stmt.setInt(1, raakaAineId);
+
+        ResultSet resultSet = stmt.executeQuery();
+        List<Annos> annokset = new ArrayList<>();
+        while (resultSet.next()) {
+            Integer id = resultSet.getInt("id");
+            String nimi = resultSet.getString("nimi");
+
+            annokset.add(new Annos(id, nimi));
+        }
+
+        resultSet.close();
+        stmt.close();
+        connection.close();
+
+        return annokset;
+    }
 
     @Override
     public void delete(Integer key) throws SQLException {

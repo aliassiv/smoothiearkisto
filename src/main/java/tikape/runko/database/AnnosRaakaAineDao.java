@@ -93,7 +93,6 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
 
             String kuvaus = raakaAine + ", " + maara;
             raakaAineet.add(kuvaus);
-
         }
         statement1.close();
         resultSet1.close();
@@ -101,39 +100,36 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
         
         return raakaAineet;
     }
+    
+    public List<String> findAnnoksenOhjeet(Annos annos) throws SQLException {
+        
+        List<String> ohjeet = new ArrayList<>();
+        Integer annoksenId = annos.getId();
+        
+        Connection connection = database.getConnection();
+        PreparedStatement statement1 = connection.prepareStatement("SELECT Annos.nimi AS annos, AnnosRaakaAine.ohje AS ohje, AnnosRaakaAine.jarjestys AS jarjestys \n" +
+"	FROM Annos\n" +
+"	INNER JOIN AnnosRaakaAine ON Annos.id = AnnosRaakaAine.annos_id\n" +
+"	WHERE Annos.id = ?\n" +
+"	ORDER BY jarjestys;");
+        statement1.setInt(1, annoksenId);
 
-//    public AnnosRaakaAine saveOrUpdate(AnnosRaakaAine annosRaakaAine) throws SQLException {
-//
-//        
-//        AnnosRaakaAine byName = findByName(annosRaakaAine.getAnnos().getNimi());
-//
-//        if (byName != null) {
-//            return byName;
-//        }
-//
-//        try (Connection conn = database.getConnection()) {
-//            PreparedStatement stmt = conn.prepareStatement("INSERT INTO " + tableName + " (name) VALUES (?)");
-//            stmt.setString(1, annosRaakaAine.getName());
-//            stmt.executeUpdate();
-//        }
-//
-//        return findByName(annosRaakaAine.getAnnos());
-//    }
-//    
-//    private AnnosRaakaAine findByName(String name) throws SQLException {
-//        try (Connection conn = database.getConnection()) {
-//            PreparedStatement stmt = conn.prepareStatement("SELECT id, name FROM " + tableName + " WHERE name = ?");
-//            stmt.setString(1, name);
-//
-//            try (ResultSet result = stmt.executeQuery()) {
-//                if (!result.next()) {
-//                    return null;
-//                }
-//
-//                return createFromRow(result);
-//            }
-//        }
-//    }
+        ResultSet resultSet1 = statement1.executeQuery();
+        
+        while (resultSet1.next()) {
+            String ohje = resultSet1.getString("ohje");
+            ohjeet.add(ohje);
+        }
+        statement1.close();
+        resultSet1.close();
+        connection.close();
+        
+        return ohjeet;
+    }
+    
+    
+    
+    
     @Override
     public void delete(Integer key) throws SQLException {    
         try (Connection connection = database.getConnection()) {

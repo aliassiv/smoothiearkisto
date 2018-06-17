@@ -1,0 +1,21 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Hakutulos</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <h1>Smoothiet, joissa raaka-aine</h1>
+        <ul>            
+            <li th:each="smoothie: ${smoothiet}">
+                <a th:href="'/reseptit/smoothiet/yksittainen/' + ${smoothie.id}">
+                    <span th:text="${smoothie.nimi}">smoothien nimi</span></a>                                    
+            </li> 
+        </ul>        
+        
+        <ul>
+            <li><a href="/reseptit">Smoothielistaukseen</a></li>
+        </ul>
+
+    </body>
+</html>
