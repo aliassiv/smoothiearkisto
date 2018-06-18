@@ -1,4 +1,4 @@
-# tikape-runko
+﻿# smoothiearkistotikape-runko
 
-Tietokantojen perusteet -kurssilla tehtävän web-sovelluksen pohja.
+Tietokantojen perusteet -kurssin harjoitustehtävä. Tehtävänä oli toteuttaa smoothiereseptien arkistosovellus. Arkistoon voi luoda uusia reseptejä ja sieltä voi hakea reseptejä.
 
