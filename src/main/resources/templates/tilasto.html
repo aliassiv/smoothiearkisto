@@ -1,0 +1,32 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Raaka-ainetilasto</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <h1>Raaka-ainetilasto</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Raaka-aine</th>
+                    <th>Annosten määrä, joissa raaka-aine on käytössä</th>
+                </tr>               
+            </thead>
+            <tbody>
+                <tr th:each="raakaaine: ${raakaaineet}">
+                    <td th:text="${raakaaine.nimi}">raakaaineen nimi</td>
+                    <td th:text="${raakaaine.annoksissa}">annosten määrä</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <br/>
+        <a href="/reseptit">Smoothielistaukseen</a>
+
+    </body>
+</html>

@@ -10,6 +10,7 @@ import java.util.List;
 import tikape.runko.domain.Annos;
 import tikape.runko.domain.AnnosRaakaAine;
 import tikape.runko.domain.RaakaAine;
+import tikape.runko.domain.Tilasto;
 
 public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
 
@@ -144,6 +145,30 @@ public class AnnosRaakaAineDao implements Dao<AnnosRaakaAine, Integer> {
 
     }
     
-    
+    public List<Tilasto> findRaakaAineTilasto() throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT RaakaAine.nimi AS raakaaine, COUNT(Annos.id) AS annoksissa \n" +
+"	FROM RaakaAine\n" +
+"	LEFT JOIN AnnosRaakaAine ON RaakaAine.id = AnnosRaakaAine.raaka_aine_id\n" +
+"	LEFT JOIN Annos ON AnnosRaakaAine.annos_id = Annos.id\n" +
+"	GROUP BY RaakaAine.nimi;");
 
+        ResultSet resultSet = stmt.executeQuery();
+        List<Tilasto> tilasto = new ArrayList<>();
+        
+        while (resultSet.next()) {            
+            
+            String raakaAineNimi = resultSet.getString("raakaaine");
+            Integer annoksissa = resultSet.getInt("annoksissa");
+
+            tilasto.add(new Tilasto(raakaAineNimi, annoksissa));
+        }
+
+        resultSet.close();
+        stmt.close();
+        connection.close();
+
+        return tilasto;
+    }
+    
 }

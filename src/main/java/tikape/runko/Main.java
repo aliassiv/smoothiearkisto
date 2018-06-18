@@ -130,6 +130,13 @@ public class Main {
             res.redirect("/reseptit/smoothiet");
             return "";
         });
+        
+        Spark.get("/reseptit/tilasto", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("raakaaineet", annosRaakaAineDao.findRaakaAineTilasto());
+
+            return new ModelAndView(map, "tilasto");
+        }, new ThymeleafTemplateEngine());
 
         
 
